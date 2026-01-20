@@ -4,10 +4,16 @@ A slim Python 3.11 Docker image with predefined dependencies, designed to run cu
 
 ## 🐳 Docker Image
 
-The Docker image is automatically built and published to GitHub Container Registry (ghcr.io) via GitHub Actions.
+The Docker image is automatically built and published to both **Docker Hub** and **GitHub Container Registry** via GitHub Actions.
 
 ### Pull the Image
 
+**From Docker Hub:**
+```bash
+docker pull owinter92/xm-microcks-importer:latest
+```
+
+**From GitHub Container Registry:**
 ```bash
 docker pull ghcr.io/nexus-thread/xm-microcks-importer:latest
 ```
@@ -19,13 +25,23 @@ docker pull ghcr.io/nexus-thread/xm-microcks-importer:latest
 - `main-<sha>` - Specific commit builds
 - Multi-platform support: `linux/amd64` and `linux/arm64`
 
+Both registries maintain identical tags and are updated simultaneously.
+
 ## 📦 Usage
+
+> **Note:** You can use either `owinter92/xm-microcks-importer` (Docker Hub) or `ghcr.io/nexus-thread/xm-microcks-importer` (GHCR) in all examples below.
 
 ### Run a Python Script
 
 Mount your script directory and execute your Python script:
 
 ```bash
+# Using Docker Hub
+docker run --rm -v $(pwd)/scripts:/scripts \
+  owinter92/xm-microcks-importer:latest \
+  python /scripts/my_script.py
+
+# Or using GHCR
 docker run --rm -v $(pwd)/scripts:/scripts \
   ghcr.io/nexus-thread/xm-microcks-importer:latest \
   python /scripts/my_script.py
@@ -34,7 +50,7 @@ docker run --rm -v $(pwd)/scripts:/scripts \
 ### Interactive Python Shell
 
 ```bash
-docker run --rm -it ghcr.io/nexus-thread/xm-microcks-importer:latest python
+docker run --rm -it owinter92/xm-microcks-importer:latest python
 ```
 
 ### Run with Environment Variables
@@ -43,7 +59,7 @@ docker run --rm -it ghcr.io/nexus-thread/xm-microcks-importer:latest python
 docker run --rm \
   -e MY_VAR=value \
   -v $(pwd)/scripts:/scripts \
-  ghcr.io/nexus-thread/xm-microcks-importer:latest \
+  owinter92/xm-microcks-importer:latest \
   python /scripts/my_script.py
 ```
 
@@ -53,7 +69,7 @@ docker run --rm \
 docker run --rm \
   -v $(pwd)/input:/input:ro \
   -v $(pwd)/output:/output \
-  ghcr.io/nexus-thread/xm-microcks-importer:latest \
+  owinter92/xm-microcks-importer:latest \
   python /scripts/process_data.py
 ```
 
@@ -114,8 +130,8 @@ The project uses GitHub Actions to automatically build and publish Docker images
 1. Make your changes to `requirements.txt` or `Dockerfile`
 2. Commit and push to the `main` branch
 3. GitHub Actions will automatically:
-   - Build the multi-platform image
-   - Push to GitHub Container Registry
+   - Build the multi-platform image (linux/amd64, linux/arm64)
+   - Push to **both** Docker Hub and GitHub Container Registry
    - Tag appropriately based on the trigger
 
 ### Creating a Release
