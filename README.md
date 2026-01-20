@@ -4,18 +4,12 @@ A slim Python 3.11 Docker image with predefined dependencies, designed to run cu
 
 ## 🐳 Docker Image
 
-The Docker image is automatically built and published to both **Docker Hub** and **GitHub Container Registry** via GitHub Actions.
+The Docker image is automatically built and published to **Docker Hub** via GitHub Actions.
 
 ### Pull the Image
 
-**From Docker Hub:**
 ```bash
 docker pull owinter92/xm-microcks-importer:latest
-```
-
-**From GitHub Container Registry:**
-```bash
-docker pull ghcr.io/nexus-thread/xm-microcks-importer:latest
 ```
 
 ### Available Tags
@@ -25,25 +19,15 @@ docker pull ghcr.io/nexus-thread/xm-microcks-importer:latest
 - `main-<sha>` - Specific commit builds
 - Multi-platform support: `linux/amd64` and `linux/arm64`
 
-Both registries maintain identical tags and are updated simultaneously.
-
 ## 📦 Usage
-
-> **Note:** You can use either `owinter92/xm-microcks-importer` (Docker Hub) or `ghcr.io/nexus-thread/xm-microcks-importer` (GHCR) in all examples below.
 
 ### Run a Python Script
 
 Mount your script directory and execute your Python script:
 
 ```bash
-# Using Docker Hub
 docker run --rm -v $(pwd)/scripts:/scripts \
   owinter92/xm-microcks-importer:latest \
-  python /scripts/my_script.py
-
-# Or using GHCR
-docker run --rm -v $(pwd)/scripts:/scripts \
-  ghcr.io/nexus-thread/xm-microcks-importer:latest \
   python /scripts/my_script.py
 ```
 
@@ -131,7 +115,7 @@ The project uses GitHub Actions to automatically build and publish Docker images
 2. Commit and push to the `main` branch
 3. GitHub Actions will automatically:
    - Build the multi-platform image (linux/amd64, linux/arm64)
-   - Push to **both** Docker Hub and GitHub Container Registry
+   - Push to Docker Hub
    - Tag appropriately based on the trigger
 
 ### Creating a Release
@@ -150,7 +134,6 @@ This will build and publish the image with tags: `v1.0.0`, `v1.0`, `v1`, and `la
 - **Multi-stage build**: Minimal attack surface
 - **Slim base image**: `python:3.11-slim` reduces vulnerabilities
 - **Non-root user**: Runs as `appuser` (UID 1000)
-- **Build attestation**: Cryptographic provenance for supply chain security
 
 ## 📄 License
 
